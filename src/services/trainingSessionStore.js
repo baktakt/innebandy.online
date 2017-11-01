@@ -1,6 +1,6 @@
 import {getClient} from './contentfulClient'
 
-export function loadGalleries (contentTypeId) {
+export function loadTrainingSessions (contentTypeId) {
   return getClient().getEntries({
     content_type: contentTypeId
   }).then(payload => {
@@ -8,7 +8,7 @@ export function loadGalleries (contentTypeId) {
   })
 }
 
-export function loadGallery (id) {
+export function loadTrainingSession (id) {
   return getClient().getEntries({'sys.id': id}).then(payload => {
     if (!payload.items.length) {
       throw new Error('Entry not found')

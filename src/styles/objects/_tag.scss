@@ -8,4 +8,11 @@
   border-radius: .25em;
   background: #eee;
   color: currentColor;
+
+  &--level {
+    background: rgb(174, 174, 174);
+  }
+  &--type {
+    background: rgb(232, 232, 232);
+  }
 }

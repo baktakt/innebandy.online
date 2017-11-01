@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import { app } from './app'
-import { galleries } from './galleries'
+import { trainingSessions } from './trainingSessions'
 
-const rootReducer = combineReducers({app, galleries})
+const rootReducer = combineReducers({app, trainingSessions})
 
 export default rootReducer

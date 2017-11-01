@@ -1,4 +1,4 @@
-import { deliveryAccessToken, galleryTypeId, spaceId } from '../../config'
+import { deliveryAccessToken, trainingSessionTypeId, spaceId } from '../../config'
 import { makeReducer } from './util'
 
 export const app = makeReducer(function (action) {
@@ -6,4 +6,4 @@ export const app = makeReducer(function (action) {
     case 'LOADED_CLIENT':
       return {authState: action.authState}
   }
-}, { authState: 'loading', deliveryAccessToken, galleryTypeId, spaceId })
+}, { authState: 'loading', deliveryAccessToken, trainingSessionTypeId, spaceId })

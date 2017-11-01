@@ -1,4 +1,4 @@
-import * as galleryService from '../services/galleryStore'
+import * as trainingService from '../services/trainingSessionStore'
 
 export function setAppClientState (authState) {
   return {
@@ -7,17 +7,17 @@ export function setAppClientState (authState) {
   }
 }
 
-export function loadGalleries ({contentTypeId}) {
+export function loadTrainingSessions ({contentTypeId}) {
   return {
-    type: 'LOAD_GALLERIES',
-    payload: galleryService.loadGalleries(contentTypeId)
+    type: 'LOAD_TRAININGSESSIONS',
+    payload: trainingService.loadTrainingSessions(contentTypeId)
   }
 }
 
-export function loadGallery (id) {
+export function loadTrainingSession (id) {
   return {
-    type: 'LOAD_GALLERY',
-    payload: galleryService.loadGallery(id),
+    type: 'LOAD_TRAININGSESSION',
+    payload: trainingService.loadTrainingSession(id),
     meta: {
       id
     }

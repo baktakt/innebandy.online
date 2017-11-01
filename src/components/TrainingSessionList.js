@@ -1,12 +1,12 @@
 import React, { PropTypes } from 'react'
-import GalleryThumb from './GalleryThumb'
+import TrainingSessionThumb from './TrainingSessionThumb'
 import { connectComponent } from '../store'
 
-class GalleryList extends React.Component {
+class TrainingSessionList extends React.Component {
   componentWillMount () {
-    const { galleryTypeId } = this.props.app
+    const { trainingSessionTypeId } = this.props.app
 
-    this.props.loadGalleries({contentTypeId: galleryTypeId})
+    this.props.loadTrainingSessions({contentTypeId: trainingSessionTypeId})
   }
 
   render () {
@@ -14,10 +14,10 @@ class GalleryList extends React.Component {
       <div className="u-paddingDefault">
         <ul className="o-listThirdsWithSpace">
           {
-            Object.keys(this.props.galleries.entries).map(id => {
+            Object.keys(this.props.trainingSessions.entries).map(id => {
               return (
                 <li key={ id }>
-                  <GalleryThumb gallery={ this.props.galleries.entries[ id ] }></GalleryThumb>
+                  <TrainingSessionThumb trainingSession={ this.props.trainingSessions.entries[ id ] }></TrainingSessionThumb>
                 </li>
               )
             })
@@ -30,7 +30,7 @@ class GalleryList extends React.Component {
   }
 
   maybeRenderWarning () {
-    if (this.props.galleries.error) {
+    if (this.props.trainingSessions.error) {
       return (
         <div className="o-warning">
           <p>The gallery content type you specified does not exist.</p>
@@ -41,10 +41,10 @@ class GalleryList extends React.Component {
   }
 }
 
-GalleryList.propTypes = {
+TrainingSessionList.propTypes = {
   app: PropTypes.object,
-  galleries: PropTypes.object,
-  loadGalleries: PropTypes.func
+  trainingSessions: PropTypes.object,
+  loadTrainingSessions: PropTypes.func
 }
 
-export default connectComponent(GalleryList)
+export default connectComponent(TrainingSessionList)

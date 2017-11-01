@@ -1,17 +1,22 @@
 import React, { PropTypes } from 'react'
 import TrainingSessionThumb from './TrainingSessionThumb'
 import { connectComponent } from '../store'
+import TagBox from './Utilities/TagBox'
+import styles from './TrainingSession.css'
 
 class TrainingSessionList extends React.Component {
   componentWillMount () {
     const { trainingSessionTypeId } = this.props.app
-
     this.props.loadTrainingSessions({contentTypeId: trainingSessionTypeId})
   }
 
   render () {
     return (
       <div className="u-paddingDefault">
+        <div className="o-listThirdsWithSpace">
+          <TagBox />
+        </div>
+        
         <ul className="o-listThirdsWithSpace">
           {
             Object.keys(this.props.trainingSessions.entries).map(id => {

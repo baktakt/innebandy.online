@@ -2,22 +2,23 @@ import React, { PropTypes } from 'react'
 import { Link } from 'react-router'
 import CSSModules from 'react-css-modules'
 import styles from './TrainingSessionThumb.css'
-import Author from './Author'
 import Date from './Date'
 import ResponsiveImage from './ResponsiveImage'
-import StarRatingComponent from 'react-star-rating-component';
+import StarRatingComponent from 'react-star-rating-component'
 
 var levels = []
 var types = []
 
 function TrainingSessionThumb ({ trainingSession }) {
   var sum = 0
+  levels = []
+  types = []
   for (var i = 0; i < trainingSession.fields.rating.length; i++) {
     sum += parseInt(trainingSession.fields.rating[i], 10)
   }
 
   var averageRating = sum / trainingSession.fields.rating.length
-  console.log(averageRating)
+
   return (
     <div styleName="c-trainingSessionThumb">
       <figure styleName="c-trainingSessionThumb__figure">
@@ -52,7 +53,8 @@ function TrainingSessionThumb ({ trainingSession }) {
   )
 }
 
-function renderTags(trainingSession) {
+function renderTags (trainingSession) {
+  console.log(trainingSession)
   trainingSession.fields.exercises.map(function (exercise) {
     exercise.fields.level.forEach(function (level) {
       if (!levels.includes(level)) {

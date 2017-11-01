@@ -5,8 +5,19 @@ import styles from './TrainingSessionThumb.css'
 import Author from './Author'
 import Date from './Date'
 import ResponsiveImage from './ResponsiveImage'
+import StarRatingComponent from 'react-star-rating-component';
 
-function TrainingSessionThumb({ trainingSession }) {
+var levels = []
+var types = []
+
+function TrainingSessionThumb ({ trainingSession }) {
+  var sum = 0
+  for (var i = 0; i < trainingSession.fields.rating.length; i++) {
+    sum += parseInt(trainingSession.fields.rating[i], 10)
+  }
+
+  var averageRating = sum / trainingSession.fields.rating.length
+  console.log(averageRating)
   return (
     <div styleName="c-trainingSessionThumb">
       <figure styleName="c-trainingSessionThumb__figure">
@@ -18,9 +29,14 @@ function TrainingSessionThumb({ trainingSession }) {
           <div styleName="c-trainingSessionThumb__title">{trainingSession.fields.title}</div>
 
           <div className="u-marginBottomSmall">
-            <Author author={trainingSession.fields.author}></Author>
+            <StarRatingComponent
+              name="rate"
+              editing={false}
+              starCount={10}
+              value={averageRating}
+            />
           </div>
-          
+
           {renderTags(trainingSession)}
 
           <div className="u-marginBottomSmall u-flexHorizCenter">
@@ -36,26 +52,30 @@ function TrainingSessionThumb({ trainingSession }) {
   )
 }
 
-function renderTags (trainingSession) {
+function renderTags(trainingSession) {
+  trainingSession.fields.exercises.map(function (exercise) {
+    exercise.fields.level.forEach(function (level) {
+      if (!levels.includes(level)) {
+        levels.push(level)
+      }
+    }, this)
+    exercise.fields.type.forEach(function (type) {
+      if (!types.includes(type)) {
+        types.push(type)
+      }
+    }, this)
+  })
   return (
     <ul className="o-listReset">
       {
-        trainingSession.fields.exercises.map(function (exercise) {
-          return (
-            exercise.fields.level.map(
-              (level, index) => (<li key={index} className="o-tag o-tag--level">{level}</li>)
-            )
-          )
-        })
+        levels.map(
+          (level, index) => (<li key={index} className="o-tag o-tag--level">{level}</li>)
+        )
       }
       {
-        trainingSession.fields.exercises.map(function (exercise) {
-          return (
-            exercise.fields.type.map(
-              (type, index) => (<li key={index} className="o-tag o-tag--type">{type}</li>)
-            )
-          )
-        })
+        types.map(
+          (type, index) => (<li key={index} className="o-tag o-tag--type">{type}</li>)
+        )
       }
     </ul>
   )

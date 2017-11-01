@@ -1,12 +1,11 @@
 import React, { PropTypes } from 'react'
 import CSSModules from 'react-css-modules'
-import styles from './Gallery.css'
+import styles from './TrainingSession.css'
 import ResponsiveImage from './ResponsiveImage'
 import { Link, browserHistory } from 'react-router'
 import Modal from 'react-modal'
 import Author from './Author'
 import Date from './Date'
-import Location from './Location'
 import ImageGallery from 'react-image-gallery'
 import { connectComponent } from '../store'
 
@@ -24,9 +23,9 @@ const customStyles = {
   }
 }
 
-class Gallery extends React.Component {
+class TrainingSession extends React.Component {
   componentDidMount () {
-    this.props.loadGallery(this.props.params.galleryId)
+    this.props.loadTrainingSession(this.props.params.trainingSessionId)
   }
 
   closeModal () {
@@ -37,7 +36,7 @@ class Gallery extends React.Component {
     let foundIndex = -1
 
     imageCollection.some((item, index) => {
-      if (item.fields.photo.sys.id === id) {
+      if (item.fields.image.sys.id === id) {
         foundIndex = index
 
         return true
@@ -48,9 +47,9 @@ class Gallery extends React.Component {
   }
 
   componentWillReceiveProps () {
-    let gallery = this.props.galleries.entries[ this.props.params.galleryId ]
+    let trainingSession = this.props.trainingSessions.entries[ this.props.params.trainingSessionId ]
 
-    if (gallery && gallery.error) {
+    if (trainingSession && trainingSession.error) {
       browserHistory.push('/not-found')
     }
   }
@@ -59,7 +58,7 @@ class Gallery extends React.Component {
     return (
       <div>
         <ResponsiveImage
-            src={entry.fields.photo.fields.file.url}
+            src={entry.fields.image.fields.file.url}
             alt={entry.fields.title}
         />
 
@@ -73,13 +72,13 @@ class Gallery extends React.Component {
           {
             entry.fields.imageCaption &&
               <div className="u-marginBottomDefault">
-                {entry.fields.imageCaption}
+                "nutting here"
               </div>
           }
           {
             entry.fields.imageCredits &&
               <div>
-                {entry.fields.imageCredits}
+                "Nutting here"
               </div>
           }
         </div>
@@ -88,34 +87,33 @@ class Gallery extends React.Component {
   }
 
   render () {
-    const gallery = this.props.galleries.entries[ this.props.params.galleryId ]
+    const trainingSession = this.props.trainingSessions.entries[ this.props.params.trainingSessionId ]
 
-    if (gallery && gallery.fields) {
+    if (trainingSession && trainingSession.fields) {
       return (
         <div>
           <div styleName="c-gallery__header">
-            <h1 styleName="c-gallery__headline">{ gallery.fields.title }</h1>
+            <h1 styleName="c-gallery__headline">{ trainingSession.fields.title }</h1>
             <Link to={'/'} styleName="c-gallery__close" className="o-btnClose" aria-label="Go back to all galleries">
               ✕
             </Link>
-            <Author author={ gallery.fields.author }></Author>
+            <Author author={ trainingSession.fields.author }></Author>
 
-            { this.renderTags(gallery) }
+            { this.renderTags(trainingSession) }
 
             <div className="u-marginBottomSmall u-flexHorizCenter">
-              <Date entry={ gallery.fields.date } />
-              <Location entry={ gallery.fields.location } />
+              <Date entry={ trainingSession.fields.date } />
             </div>
           </div>
 
           <ul className="o-listThirds">
             {
-              gallery.fields.images.map((entry, index) => {
+              trainingSession.fields.exercises.map((entry, index) => {
                 return (
                   <li key={entry.sys.id}>
                     <div styleName="c-gallery__modalOpenLink">
-                      <Link to={`/gallery/${gallery.sys.id}/image/${entry.fields.photo.sys.id}`} >
-                        <ResponsiveImage src={ entry.fields.photo.fields.file.url } alt={entry.fields.title} />
+                      <Link to={`/session/${trainingSession.sys.id}/image/${entry.fields.image.sys.id}`} >
+                        <ResponsiveImage src={ entry.fields.image.fields.file.url } alt={entry.fields.title} />
                       </Link>
                       <div styleName="c-gallery__modalOpenTitle">{ entry.fields.title }</div>
                     </div>
@@ -132,9 +130,9 @@ class Gallery extends React.Component {
 
             <ImageGallery
             ref={i => this._imageGallery = i}
-            items={ gallery.fields.images }
+            items={ trainingSession.fields.exercises }
             slideInterval={2000}
-            startIndex={ this.props.params.imageId ? this.getIndexOfImage(gallery.fields.images, this.props.params.imageId) : -1}
+            startIndex={ this.props.params.imageId ? this.getIndexOfImage(trainingSession.fields.exercises, this.props.params.imageId) : -1}
             onImageLoad={this.handleImageLoad}
             renderItem={this.renderImageEntry}/>
           </Modal>
@@ -143,12 +141,12 @@ class Gallery extends React.Component {
     }
   }
 
-  renderTags (gallery) {
-    if (gallery.fields.tags) {
+  renderTags (trainingSession) {
+    if (trainingSession.fields.tags) {
       return (
         <ul className="o-listReset">
         {
-          gallery.fields.tags.map(
+          trainingSession.fields.tags.map(
             (entry, index) => (<li key={index} className="o-tag">{ entry }</li>)
           )
         }
@@ -158,12 +156,12 @@ class Gallery extends React.Component {
   }
 }
 
-Gallery.propTypes = {
+TrainingSession.propTypes = {
   app: PropTypes.object,
-  galleries: PropTypes.object,
-  loadGallery: PropTypes.func,
-  loadGalleries: PropTypes.func,
+  trainingSessions: PropTypes.object,
+  loadTrainingSession: PropTypes.func,
+  loadTrainingSessions: PropTypes.func,
   params: PropTypes.object
 }
 
-export default connectComponent(CSSModules(Gallery, styles))
+export default connectComponent(CSSModules(TrainingSession, styles))

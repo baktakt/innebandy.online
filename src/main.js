@@ -3,7 +3,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Router, Route, IndexRoute } from 'react-router'
 import App from './components/Main'
-import Gallery from './components/Gallery'
+import TrainingSession from './components/TrainingSession'
 import TrainingSessionList from './components/TrainingSessionList'
 import NoMatch from './components/NoMatch'
 import { Provider } from 'react-redux'
@@ -14,7 +14,7 @@ const router = (
   <Router history={history}>
     <Route path='/' component={App}>
       <IndexRoute component={TrainingSessionList}/>
-      <Route path='gallery/:galleryId' component={Gallery}>
+      <Route path='session/:trainingSessionId' component={TrainingSession}>
         <Route path='image/:imageId' />
       </Route>
       <Route path='not-found' component={NoMatch} />
